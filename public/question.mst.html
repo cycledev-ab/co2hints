@@ -1,0 +1,91 @@
+<li class="list-group-item"  id="question-{{question.id}}">
+    <p class="bg-primary" style="padding: 7px;">
+        {{question.question}}
+    </p>
+    <div class="row">
+        <div class="col-md-12">
+            <fieldset id="{{question.id}}">
+                    {{#question.options}}
+                <div class="row">
+                    <div class="col-md-12 btn-group" id="btn-group-{{question.id}}" data-toggle="buttons">
+                        <label class="btn btn-default active btn-block" style="white-space: normal;">
+                            <input type="radio" name="btn-group-{{question.id}}" autocomplete="off" value='{"questionId":"{{question.id}}","answer":"{{ statement }}"}'>{{ option }}
+                        </label>
+                    </div>
+                </div>
+                {{/question.options}}
+            </fieldset>
+            <script>
+                $('input:radio[name="btn-group-{{question.id}}"]').change(function() {
+                        var inputValue = jQuery.parseJSON( $(this).val() );
+                        
+                        if (givenAnswers == "") {
+                            givenAnswers += $(this).val();
+                        } else {
+                            givenAnswers += "," + $(this).val();
+                        }
+                        var givenAnswerList = "[" + givenAnswers + "]";
+                        
+                        
+                        $.ajax
+                        ({
+                            headers: { 
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json' 
+                            },
+                            type: "POST",
+                            url: 'api/child-questions',
+                            dataType: 'json',
+                            async: false,
+                            data: $(this).val(),
+                            success: function (data) {
+                                $( "#question-{{question.id}}" ).slideUp( "slow" );
+                                $.each(data, function(index, childQuestion) {
+                                    $.get('question.mst.html', function(template) {
+                                      var rendered = Mustache.render(template, {question: childQuestion});
+                                      $('#question-{{question.id}}').after(rendered);
+                                      $('#question-' + childQuestion.id).hide().fadeIn( "slow" );
+                                    });
+                                    
+                                });
+                                
+                                $.get('co2profile.mst.html', function(template) {
+                                      var rendered = Mustache.render(template, {statement: inputValue.answer});
+                                      $('#profile').append(rendered);
+                                });
+
+                            }
+                        })
+                        
+                        
+                        $.ajax
+                        ({
+                            headers: { 
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json' 
+                            },
+                            type: "POST",
+                            url: 'api/suggestions',
+                            dataType: 'json',
+                            async: false,
+                            data: givenAnswerList,
+                            success: function (data) {
+                                console.log(data);
+                                
+                                $('#suggestions').empty();
+                                $.each(data, function(index, suggestion) {
+                                    
+                                    $.get('suggestion.mst.html', function(template) {
+                                        var rendered = Mustache.render(template, {suggestion: suggestion});
+                                        $('#suggestions').append(rendered);
+                                    });
+                                });
+                            
+                            }
+                        })
+                    
+                });
+            </script>
+        </div>
+    </div>
+</li>

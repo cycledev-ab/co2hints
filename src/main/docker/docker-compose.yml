@@ -1,0 +1,12 @@
+elastic:
+ image: elasticsearch:5.1
+ container_name: elastic
+ ports:
+  - "127.0.0.1:9200:9200"
+co2hits:
+ image: cycledev/co2hints
+ container_name: co2hits
+ ports:
+   - "8080:8080"
+ links:
+   - elastic
