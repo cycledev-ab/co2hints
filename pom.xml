@@ -4,7 +4,7 @@
 
     <groupId>com.cycledev.cohints</groupId>
     <artifactId>co2hints</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <name>Service for presenting suggestions how to reducing CO2 footprint</name>
         
@@ -116,6 +116,7 @@
     
     <scm>
         <developerConnection>scm:git:https://github.com/cycledev-ab/co2hints.git</developerConnection>
-    </scm>
+      <tag>HEAD</tag>
+  </scm>
 
 </project>
