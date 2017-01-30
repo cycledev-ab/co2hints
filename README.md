@@ -1,8 +1,8 @@
-# CO2Hint - a question / suggestion service
+# CO2Hints - a question / suggestion service
 
-This service provides functionality for answering questions and retrieve
-suggestions based on the answers. The service comes loaded with answer and
-suggestions based on how a persons CO2 footprint can be reduced.
+CO2hints is a service which asks questions and present suggestions for reducing CO2 footprint based on the answers.
+
+The entire focus of this service is inspire people on suggestions that they can do in order to reduce a persons CO2 footprint. The service will present the suggestions based on how easy it is to implement and how effective it is to reduce the CO2 footprint. The top suggestions should be the one most suitable for a person based on the answers the person has given.
 
 The service is based on Spring boot and Elasticsearch.
 
